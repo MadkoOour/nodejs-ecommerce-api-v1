@@ -5,6 +5,8 @@ const morgan = require("morgan"); // An HTTP request logger middleware for Node.
 dotenv.config({ path: "config.env" });
 const dbConnection = require("./config/database");
 const categoryRoute = require("./routes/categoryRoute");
+const ApiError = require("./utils/apiError");
+const globalError = require("./middlewares/errorMiddleware");
 
 // Connect with db
 dbConnection();
@@ -28,15 +30,11 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/v1/categories", categoryRoute);
 
 app.all("/*splat", (req, res, next) => {
-  // res.status(404).json({ msg: `Can't find this route ${req.originalUrl}` });
-  const err = new Error(`Can't find this route ${req.originalUrl}`);
-  next(err.message);
+  next(new ApiError(`Can't find this route ${req.originalUrl}`, 404));
 });
 
 // Global error handling middleware
-app.use((err, req, res, next) => {
-  res.status(400).json({ err });
-});
+app.use(globalError);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
