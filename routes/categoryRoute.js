@@ -6,13 +6,18 @@ const {
   updateCategory,
   deleteCategory,
 } = require("../services/categoryService");
+const { param, validationResult } = require("express-validator");
 const router = express.Router();
 
 /************************************
  * GET
  ************************************/
 router.get("/", getCategories); //router.route("/").get(getCategories)
-router.get("/:id", getCategory); //router.route(/:id).get(getCategory)
+router.get(
+  "/:id",
+  param("id").isMongoId().withMessage("Invalid category id"),
+  getCategory,
+); //router.route(/:id).get(getCategory)
 
 /************************************
  * POST
