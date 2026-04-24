@@ -20,10 +20,6 @@ exports.getCategories = asyncHandler(async (req, res) => {
 exports.getCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await CategoryModel.findById(id);
-  if (!category) {
-    // res.status(404).json({ msg: `No category found for this id ${id}` });
-    return next(new ApiError(`No category found for this id ${id}`, 404));
-  }
   res.status(200).json({ data: category });
 });
 
@@ -47,10 +43,6 @@ exports.updateCategory = asyncHandler(async (req, res, next) => {
     { name: name, slug: slugify(name) },
     { new: true },
   );
-  if (!category) {
-    // res.status(404).json({ msg: `No category found for this id ${id}` });
-    return next(new ApiError(`No category found for this id ${id}`, 404));
-  }
   res.status(200).json({ data: category });
 });
 
@@ -61,10 +53,6 @@ exports.deleteCategory = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   const category = await CategoryModel.findByIdAndDelete(id);
   const newCategories = await CategoryModel.find({});
-  if (!category) {
-    // res.status(404).json({ msg: `No category found for this id ${id}` });
-    return next(new ApiError(`No category found for this id ${id}`, 404));
-  }
   res
     .status(200)
     .json({ msg: "The item has been deleted", data: newCategories });

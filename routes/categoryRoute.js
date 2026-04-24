@@ -7,32 +7,35 @@ const {
   deleteCategory,
 } = require("../services/categoryService");
 const { param, validationResult } = require("express-validator");
+const {
+  getCategoryValidator,
+  createCategoryValidator,
+  deleteCategoryValidator,
+  updateCategoryValidator,
+} = require("../utils/vaildators/categoryVaildator");
+const { deleteMany } = require("../models/categoryModel");
 const router = express.Router();
 
 /************************************
  * GET
  ************************************/
 router.get("/", getCategories); //router.route("/").get(getCategories)
-router.get(
-  "/:id",
-  param("id").isMongoId().withMessage("Invalid category id"),
-  getCategory,
-); //router.route(/:id).get(getCategory)
+router.get("/:id", getCategoryValidator, getCategory); //router.route(/:id).get(getCategory)
 
 /************************************
  * POST
  ************************************/
-router.post("/", createCategory); //router.route("/").post(createCategory)
+router.post("/", createCategoryValidator, createCategory); //router.route("/").post(createCategory)
 
 /************************************
  * PUT
  ************************************/
-router.put("/:id", updateCategory); //router.route(/:id).put(updateCategory)
+router.put("/:id", updateCategoryValidator, updateCategory); //router.route(/:id).put(updateCategory)
 
 /************************************
  * DELETE
  ************************************/
-router.delete("/:id", deleteCategory); //router.route(/:id).delete(deleteCategory)
+router.delete("/:id", deleteCategoryValidator, deleteCategory); //router.route(/:id).delete(deleteCategory)
 
 /************************************
  *
