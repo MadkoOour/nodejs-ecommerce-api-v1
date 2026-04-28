@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const CategoryModel = require("../models/categoryModel");
+const SubCategoryModel = require("../models/subCategoryModel");
 const slugify = require("slugify");
 const ApiError = require("../utils/apiError");
 

@@ -13,7 +13,6 @@ const {
   deleteCategoryValidator,
   updateCategoryValidator,
 } = require("../utils/vaildators/categoryVaildator");
-const { deleteMany } = require("../models/categoryModel");
 const router = express.Router();
 
 /************************************
